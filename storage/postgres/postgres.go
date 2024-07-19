@@ -30,12 +30,11 @@ func NewPostgresStorage(config config.Config) (*Storage, error) {
 	}
 
 	event := NewCustomEventsRepo(db)
-	// media := NewMediasRepo(db)
-	// comment := NewCommentsRepo(db)
-	// shared := NewSharedMemoriesRepo(db)
+	milestone := NewMilestonesRepo(db)
 
 	return &Storage{
 		Db:     db,
 		EventS: event,
+		MilestoneS: milestone,
 	}, nil
 }

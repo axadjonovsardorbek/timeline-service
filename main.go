@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
+	"net"
 	cf "timeline/config"
 	mp "timeline/genproto"
-	"timeline/storage/postgres"
 	"timeline/service"
-	"net"
+	"timeline/storage/mongo"
+	"timeline/storage/postgres"
 
 	"google.golang.org/grpc"
 )
@@ -15,6 +16,12 @@ func main() {
 	config := cf.Load()
 
 	db, err := postgres.NewPostgresStorage(config)
+
+	if err != nil {
+		panic(err)
+	}
+
+	mongo, err := mongo.NewMongoStorage(config)
 
 	if err != nil {
 		panic(err)
@@ -30,6 +37,8 @@ func main() {
 
 	mp.RegisterCustomEventsServiceServer(s, service.NewCustomEventsService(db))
 	mp.RegisterMilestonesServiceServer(s, service.NewMilestonesService(db))
+	mp.RegisterHistoricalEventsServiceServer(s, service.NewHistoricalEventsService(mongo))
+	mp.RegisterPersonalEventsServiceServer(s, service.NewPersonalEventsService(mongo))
 
 	log.Printf("server listening at %v", listener.Addr())
 	if err := s.Serve(listener); err != nil {

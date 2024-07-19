@@ -22,7 +22,6 @@ func NewMilestonesRepo(db *sql.DB) *MilestonesRepo {
 
 func (m *MilestonesRepo) Create(req *mp.MilestonesCreateReq) (*mp.Void, error) {
 	id := uuid.New().String()
-	void := mp.Void{}
 
 	query := `
 	INSERT INTO milestones (
@@ -41,7 +40,7 @@ func (m *MilestonesRepo) Create(req *mp.MilestonesCreateReq) (*mp.Void, error) {
 	}
 
 	log.Println("Successfully created milestone")
-	return &void, nil
+	return nil, nil
 }
 
 func (m *MilestonesRepo) GetById(id *mp.ById) (*mp.MilestonesGetByIdRes, error) {
@@ -147,7 +146,6 @@ func (m *MilestonesRepo) GetAll(req *mp.MilestonesGetAllReq) (*mp.MilestonesGetA
 }
 
 func (m *MilestonesRepo) Update(req *mp.MilestonesUpdateReq) (*mp.Void, error) {
-	void := mp.Void{}
 
 	query := `
 	UPDATE
@@ -184,11 +182,10 @@ func (m *MilestonesRepo) Update(req *mp.MilestonesUpdateReq) (*mp.Void, error) {
 	}
 
 	log.Println("Successfully updated milestone")
-	return &void, nil
+	return nil, nil
 }
 
 func (m *MilestonesRepo) Delete(id *mp.ById) (*mp.Void, error) {
-	void := mp.Void{}
 
 	query := `
 	UPDATE 
@@ -215,5 +212,5 @@ func (m *MilestonesRepo) Delete(id *mp.ById) (*mp.Void, error) {
 	}
 
 	log.Println("Successfully deleted milestone")
-	return &void, nil
+	return nil, nil
 }

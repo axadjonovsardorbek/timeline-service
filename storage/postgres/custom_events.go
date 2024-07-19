@@ -22,7 +22,6 @@ func NewCustomEventsRepo(db *sql.DB) *CustomEventsRepo {
 
 func (c *CustomEventsRepo) Create(req *mp.CustomEventsCreateReq) (*mp.Void, error) {
 	id := uuid.New().String()
-	void := mp.Void{}
 
 	query := `
 	INSERT INTO custom_events (
@@ -42,7 +41,7 @@ func (c *CustomEventsRepo) Create(req *mp.CustomEventsCreateReq) (*mp.Void, erro
 	}
 
 	log.Println("Successfully created custom event")
-	return &void, nil
+	return nil, nil
 }
 
 func (c *CustomEventsRepo) GetById(id *mp.ById) (*mp.CustomEventsGetByIdRes, error) {
@@ -152,7 +151,6 @@ func (c *CustomEventsRepo) GetAll(req *mp.CustomEventsGetAllReq) (*mp.CustomEven
 }
 
 func (c *CustomEventsRepo) Update(req *mp.CustomEventsUpdateReq) (*mp.Void, error) {
-	void := mp.Void{}
 
 	query := `
 	UPDATE
@@ -189,11 +187,10 @@ func (c *CustomEventsRepo) Update(req *mp.CustomEventsUpdateReq) (*mp.Void, erro
 	}
 
 	log.Println("Successfully updated custom event")
-	return &void, nil
+	return nil, nil
 }
 
 func (c *CustomEventsRepo) Delete(id *mp.ById) (*mp.Void, error) {
-	void := mp.Void{}
 
 	query := `
 	UPDATE 
@@ -220,5 +217,5 @@ func (c *CustomEventsRepo) Delete(id *mp.ById) (*mp.Void, error) {
 	}
 
 	log.Println("Successfully deleted custom event")
-	return &void, nil
+	return nil, nil
 }

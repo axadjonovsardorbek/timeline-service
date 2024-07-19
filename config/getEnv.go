@@ -11,11 +11,14 @@ import (
 type Config struct {
 	TIMELINE_SERVICE_PORT string
 
-	DB_HOST     string
-	DB_PORT     int
-	DB_USER     string
-	DB_PASSWORD string
-	DB_NAME     string
+	DB_HOST       string
+	DB_PORT       int
+	DB_USER       string
+	DB_PASSWORD   string
+	DB_NAME       string
+	MONGO_DB_HOST string
+	MONGO_DB_PORT int
+	MONGO_DB_NAME string
 }
 
 func Load() Config {
@@ -27,11 +30,15 @@ func Load() Config {
 
 	config.TIMELINE_SERVICE_PORT = cast.ToString(coalesce("TIMELINE_SERVICE_PORT", ":50052"))
 
-	config.DB_HOST = cast.ToString(coalesce("DB_HOST", "localhost"))
+	config.DB_HOST = cast.ToString(coalesce("DB_HOST", "postgres"))
 	config.DB_PORT = cast.ToInt(coalesce("DB_PORT", 5432))
 	config.DB_USER = cast.ToString(coalesce("DB_USER", "postgres"))
 	config.DB_PASSWORD = cast.ToString(coalesce("DB_PASSWORD", "1111"))
 	config.DB_NAME = cast.ToString(coalesce("DB_NAME", "time_capsule_db"))
+
+	config.MONGO_DB_HOST = cast.ToString(coalesce("MONGO_DB_HOST", "mongo"))
+	config.MONGO_DB_PORT = cast.ToInt(coalesce("MONGO_DB_PORT", 27017))
+	config.MONGO_DB_NAME = cast.ToString(coalesce("MONGO_DB_NAME", "time_capsule_db"))
 
 	return config
 }

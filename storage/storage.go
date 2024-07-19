@@ -4,6 +4,11 @@ import (
 	mp "timeline/genproto"
 )
 
+type StorageI interface {
+	HistoricalEvents() HistoricalEventsI
+	PersonalEvents() PersonalEventsI
+}
+
 type CustomEventsI interface {
 	Create(*mp.CustomEventsCreateReq) (*mp.Void, error)
 	GetById(*mp.ById) (*mp.CustomEventsGetByIdRes, error)
@@ -20,18 +25,19 @@ type MilestonesI interface {
 	Delete(*mp.ById) (*mp.Void, error)
 }
 
-// type MediasI interface {
-// 	Create(*mp.MediasCreateReq) (*mp.Void, error)
-// 	GetById(*mp.ById) (*mp.MediasGetByIdRes, error)
-// 	GetAll(*mp.MediasGetAllReq) (*mp.MediasGetAllRes, error)
-// 	Update(*mp.MediasUpdateReq) (*mp.Void, error)
-// 	Delete(*mp.ById) (*mp.Void, error)
-// }
+type PersonalEventsI interface {
+	Create(*mp.PersonalEventsRes) (*mp.Void, error)
+	GetById(*mp.ById) (*mp.PersonalEventsGetByIdRes, error)
+	GetAll(*mp.PersonalEventsGetAllReq) (*mp.PersonalEventsGetAllRes, error)
+	Update(*mp.PersonalEventsUpdateReq) (*mp.Void, error)
+	Delete(*mp.ById) (*mp.Void, error)
+}
 
-// type SharedMemoriesI interface {
-// 	Create(*mp.SharedMemoriesCreateReq) (*mp.Void, error)
-// 	GetById(*mp.ById) (*mp.SharedMemoriesGetByIdRes, error)
-// 	GetAll(*mp.SharedMemoriesGetAllReq) (*mp.SharedMemoriesGetAllRes, error)
-// 	Update(*mp.SharedMemoriesUpdateReq) (*mp.Void, error)
-// 	Delete(*mp.ById) (*mp.Void, error)
-// }
+type HistoricalEventsI interface {
+	Create(*mp.HistoricalEventsRes) (*mp.Void, error)
+	GetById(*mp.ById) (*mp.HistoricalEventsGetByIdRes, error)
+	GetAll(*mp.HistoricalEventsGetAllReq) (*mp.HistoricalEventsGetAllRes, error)
+	Update(*mp.HistoricalEventsUpdateReq) (*mp.Void, error)
+	Delete(*mp.ById) (*mp.Void, error)
+	Context(*mp.ContextReq) (*mp.ContextRes, error)
+}
