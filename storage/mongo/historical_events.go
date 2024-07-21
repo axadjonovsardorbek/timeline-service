@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type HistoricalEventsRepo struct {
@@ -68,6 +69,17 @@ func (c *HistoricalEventsRepo) GetAll(req *mp.HistoricalEventsGetAllReq) (*mp.Hi
 		mongoFilter = bson.M{"category": primitive.Regex{Pattern: req.Category, Options: "i"}}
 	}
 
+	var defaultLimit int64
+	var offset int64
+	var count int32
+
+	defaultLimit = 10
+	offset = int64(req.Filter.Page) * defaultLimit
+
+	findOptions := options.Find()
+	findOptions.SetLimit(defaultLimit)
+	findOptions.SetSkip(offset)
+
 	cursor, err := collection.Find(context.TODO(), mongoFilter)
 	if err != nil {
 		return nil, err
@@ -76,22 +88,7 @@ func (c *HistoricalEventsRepo) GetAll(req *mp.HistoricalEventsGetAllReq) (*mp.Hi
 
 	var events mp.HistoricalEventsGetAllRes
 
-	var defaultLimit int32
-	var check int32
-	var offset int32
-	var count int32
-
-	defaultLimit = 10
-	offset = req.Filter.Page * defaultLimit
-
 	for cursor.Next(context.TODO()) {
-		if check <= offset {
-			check += 1
-			continue
-		}
-		if count == defaultLimit {
-			break
-		}
 		var reading mp.HistoricalEventsRes
 		err := cursor.Decode(&reading)
 		if err != nil {

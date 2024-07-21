@@ -19,6 +19,8 @@ type Config struct {
 	MONGO_DB_HOST string
 	MONGO_DB_PORT int
 	MONGO_DB_NAME string
+	MONGO_DB_USER string
+	MONGO_DB_PASS string
 }
 
 func Load() Config {
@@ -37,6 +39,8 @@ func Load() Config {
 	config.DB_NAME = cast.ToString(coalesce("DB_NAME", "time_capsule_db"))
 
 	config.MONGO_DB_HOST = cast.ToString(coalesce("MONGO_DB_HOST", "mongo"))
+	config.MONGO_DB_USER = cast.ToString(coalesce("MONGO_DB_USER", "sardorbek"))
+	config.MONGO_DB_PASS = cast.ToString(coalesce("MONGO_DB_PASS", "1111"))
 	config.MONGO_DB_PORT = cast.ToInt(coalesce("MONGO_DB_PORT", 27017))
 	config.MONGO_DB_NAME = cast.ToString(coalesce("MONGO_DB_NAME", "time_capsule_db"))
 
